@@ -1,11 +1,15 @@
 package ru.geekbrains.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+
+import javax.sound.midi.spi.SoundbankReader;
 
 import ru.geekbrains.base.BaseScreen;
 import ru.geekbrains.math.Rect;
@@ -27,8 +31,16 @@ public class GameScreen extends BaseScreen {
 
     private BulletPool bulletPool;
 
+    private Sound laserSound;
+    private Music backgroundMusic;
+
+
     @Override
     public void show() {
+        laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/blaster.mp3"));
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/BackgroundSound.mp3"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
         super.show();
         bg = new Texture("textures/bg.png");
         background = new Background(new TextureRegion(bg));
@@ -38,7 +50,7 @@ public class GameScreen extends BaseScreen {
             starArray[i] = new Star(atlas);
         }
         bulletPool = new BulletPool();
-        mainShip = new MainShip(atlas, bulletPool);
+        mainShip = new MainShip(atlas, bulletPool, laserSound);
     }
 
     @Override
@@ -88,6 +100,8 @@ public class GameScreen extends BaseScreen {
         bg.dispose();
         atlas.dispose();
         bulletPool.dispose();
+        laserSound.dispose();
+        backgroundMusic.dispose();
         super.dispose();
     }
 
