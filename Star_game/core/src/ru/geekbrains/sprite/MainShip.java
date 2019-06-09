@@ -34,6 +34,7 @@ public class MainShip extends Ship {
         this.damage = 1;
         this.bulletSound = bulletSound;
         this.hp = 10;
+
     }
 
     @Override
@@ -58,6 +59,11 @@ public class MainShip extends Ship {
             setLeft(worldBounds.getLeft());
             stop();
         }
+    }
+
+    public void startNewGame(){
+        this.hp = 10;
+        this.pos.x = worldBounds.pos.x;
     }
 
     @Override
